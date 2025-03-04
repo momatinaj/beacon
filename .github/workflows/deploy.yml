@@ -21,19 +21,22 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
-        working-directory: ./my-app
         run: npm ci
 
       - name: Build
-        working-directory: ./my-app
         run: npm run build
 
       - name: Add .nojekyll file
-        run: touch ./my-app/out/.nojekyll
+        run: touch out/.nojekyll
+
+      - name: List directory structure
+        run: |
+          pwd
+          ls -la
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: my-app/out
+          folder: out
           branch: gh-pages
           clean: true 
