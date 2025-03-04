@@ -21,14 +21,16 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
+        working-directory: ./my-app
         run: npm ci
 
       - name: Build
+        working-directory: ./my-app
         run: npm run build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: out
+          folder: my-app/out
           branch: gh-pages
           clean: true 
