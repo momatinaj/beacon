@@ -5,7 +5,8 @@ const nextConfig = {
         unoptimized: true,
     },
     basePath: '/beacon',  // Should match your repo name
-    assetPrefix: '/beacon', // Should match your repo name
+    assetPrefix: '/beacon/',  // Add trailing slash
+    trailingSlash: true,      // Add this line
     eslint: {
         ignoreDuringBuilds: true,
     },

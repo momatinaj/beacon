@@ -28,6 +28,9 @@ jobs:
         working-directory: ./my-app
         run: npm run build
 
+      - name: Add .nojekyll file
+        run: touch ./my-app/out/.nojekyll
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
