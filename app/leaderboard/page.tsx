@@ -24,109 +24,173 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 
-// Add this interface near the top of the file, before the leaderboardData definition
-interface LeaderboardEntry {
-  rank: number
-  model: string
-  team: string
-  type: string
+// Define interfaces for our data model
+interface DatasetResult {
+  dataset: string
   qError: number
   mae: number
   inferenceTime: number
-  dataset: string
-  paperLink: string
-  codeLink: string
+  preprocessTime: number
+  totalTime: number
 }
 
-// Sample data for the leaderboard
-const leaderboardData = [
+interface ModelEntry {
+  id: string
+  model: string
+  team: string
+  type: string
+  paperLink: string
+  codeLink: string
+  results: DatasetResult[]
+}
+
+// Sample data with multiple datasets per model
+const modelData: ModelEntry[] = [
   {
-    rank: 1,
+    id: "ppgn",
     model: "PPGN",
-    team: "University A",
+    team: "Carnegie Mellon",
     type: "ML",
-    qError: 1.02,
-    mae: 0.05,
-    inferenceTime: 0.5,
-    dataset: "Set_1",
-    paperLink: "https://example.com/paper1",
-    codeLink: "https://github.com/example/model1",
+    paperLink: "https://openreview.net/forum?id=Mspk_WYKoEH",
+    codeLink: "https://github.com/LingxiaoShawn/GNNAsKernel",
+    results: [
+      {
+        dataset: "Set_1",
+        qError: 1.02,
+        mae: 0.05,
+        inferenceTime: 0.5,
+        preprocessTime: 1.2,
+        totalTime: 1.7,
+      },
+      {
+        dataset: "Set_2",
+        qError: 1.10,
+        mae: 0.08,
+        inferenceTime: 0.6,
+        preprocessTime: 1.5,
+        totalTime: 2.1,
+      },
+    ],
   },
   {
-    rank: 2,
+    id: "desco",
     model: "DeSCo",
     team: "Research Lab B",
     type: "ML",
-    qError: 1.07,
-    mae: 0.08,
-    inferenceTime: 0.7,
-    dataset: "Set_3",
     paperLink: "https://example.com/paper2",
     codeLink: "https://github.com/example/model2",
+    results: [
+      {
+        dataset: "Set_1",
+        qError: 1.15,
+        mae: 0.09,
+        inferenceTime: 0.6,
+        preprocessTime: 0.9,
+        totalTime: 1.5,
+      },
+      {
+        dataset: "Set_3",
+        qError: 1.07,
+        mae: 0.08,
+        inferenceTime: 0.7,
+        preprocessTime: 1.1,
+        totalTime: 1.8,
+      },
+    ],
   },
   {
-    rank: 3,
+    id: "escape",
     model: "ESCAPE",
     team: "University C",
     type: "AL",
-    qError: 1.23,
-    mae: 0.12,
-    inferenceTime: 1.2,
-    dataset: "Set_1",
     paperLink: "https://example.com/paper3",
     codeLink: "https://github.com/example/model3",
+    results: [
+      {
+        dataset: "Set_1",
+        qError: 1.23,
+        mae: 0.12,
+        inferenceTime: 1.2,
+        preprocessTime: 0.7,
+        totalTime: 1.9,
+      },
+    ],
   },
   {
-    rank: 4,
+    id: "gnn",
     model: "GNN",
     team: "Industry Lab D",
     type: "ML",
-    qError: 1.31,
-    mae: 0.15,
-    inferenceTime: 0.2,
-    dataset: "Set_2",
     paperLink: "https://example.com/paper4",
     codeLink: "https://github.com/example/model4",
+    results: [
+      {
+        dataset: "Set_2",
+        qError: 1.31,
+        mae: 0.15,
+        inferenceTime: 0.2,
+        preprocessTime: 0.5,
+        totalTime: 0.7,
+      },
+    ],
   },
   {
-    rank: 5,
+    id: "cc-approx",
     model: "CC-Approx",
     team: "University E",
     type: "AL",
-    qError: 1.42,
-    mae: 0.18,
-    inferenceTime: 0.9,
-    dataset: "Set_1",
     paperLink: "https://example.com/paper5",
     codeLink: "https://github.com/example/model5",
+    results: [
+      {
+        dataset: "Set_1",
+        qError: 1.42,
+        mae: 0.18,
+        inferenceTime: 0.9,
+        preprocessTime: 0.4,
+        totalTime: 1.3,
+      },
+    ],
   },
   {
-    rank: 6,
+    id: "graphsage",
     model: "GraphSAGE",
     team: "Research Group F",
     type: "ML",
-    qError: 1.56,
-    mae: 0.22,
-    inferenceTime: 0.4,
-    dataset: "Set_2",
     paperLink: "https://example.com/paper6",
     codeLink: "https://github.com/example/model6",
+    results: [
+      {
+        dataset: "Set_2",
+        qError: 1.56,
+        mae: 0.22,
+        inferenceTime: 0.4,
+        preprocessTime: 0.3,
+        totalTime: 0.7,
+      },
+    ],
   },
   {
-    rank: 7,
+    id: "vertexcount",
     model: "VertexCount",
     team: "University G",
     type: "AL",
-    qError: 1.68,
-    mae: 0.25,
-    inferenceTime: 1.5,
-    dataset: "Set_3",
     paperLink: "https://example.com/paper7",
     codeLink: "https://github.com/example/model7",
+    results: [
+      {
+        dataset: "Set_3",
+        qError: 1.68,
+        mae: 0.25,
+        inferenceTime: 1.5,
+        preprocessTime: 0.8,
+        totalTime: 2.3,
+      },
+    ],
   },
 ]
 
-// Sample data for performance comparison
+// Update the radar and performance data to match our new structure
 const performanceData = [
   {
     name: "PPGN (ML)",
@@ -187,54 +251,107 @@ const radarData = [
   },
 ]
 
+interface RankedModel {
+  id: string
+  rank: number
+  model: string
+  team: string
+  type: string
+  qError: number
+  mae: number
+  inferenceTime: number
+  preprocessTime: number
+  totalTime: number
+  paperLink: string
+  codeLink: string
+  dataset: string
+}
+
 export default function LeaderboardPage() {
-  const [taskFilter, setTaskFilter] = useState("all")
+  // Set default values for dataset (Set_1) and view (accuracy)
   const [metricFilter, setMetricFilter] = useState("qError")
-  const [sortColumn, setSortColumn] = useState<keyof LeaderboardEntry>("rank")
-  const [sortDirection, setSortDirection] = useState("asc")
+  const [datasetFilter, setDatasetFilter] = useState("Set_1")
+  const [viewMode, setViewMode] = useState("accuracy") // accuracy, efficiency, combined
 
-  const handleSort = (column: keyof LeaderboardEntry) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
-    } else {
-      setSortColumn(column)
-      setSortDirection("asc")
-    }
+  // Get all unique datasets across all models
+  const allDatasets = Array.from(new Set(
+    modelData.flatMap(model => model.results.map(result => result.dataset))
+  ))
+
+  // Process data based on filters
+  const getFilteredRankedModels = (): RankedModel[] => {
+    // Filter models with results matching the dataset filter
+    const modelsWithFilteredResults = modelData
+      .map(model => {
+        const matchingResult = model.results.find(result => result.dataset === datasetFilter)
+        return matchingResult ? { model, result: matchingResult } : null
+      })
+      .filter((item): item is { model: ModelEntry; result: DatasetResult } => item !== null)
+
+    // Create array of models with their dataset results
+    const rankedModels: RankedModel[] = modelsWithFilteredResults.map(({ model, result }) => ({
+      id: model.id,
+      rank: 0, // Will be set after sorting
+      model: model.model,
+      team: model.team,
+      type: model.type,
+      qError: result.qError,
+      mae: result.mae,
+      inferenceTime: result.inferenceTime,
+      preprocessTime: result.preprocessTime,
+      totalTime: result.totalTime,
+      paperLink: model.paperLink,
+      codeLink: model.codeLink,
+      dataset: result.dataset
+    }))
+
+    // Sort by the selected metric
+    rankedModels.sort((a, b) => {
+      if (metricFilter === "qError") return a.qError - b.qError
+      if (metricFilter === "mae") return a.mae - b.mae
+      if (metricFilter === "inferenceTime") return a.inferenceTime - b.inferenceTime
+      if (metricFilter === "preprocessTime") return a.preprocessTime - b.preprocessTime
+      return a.totalTime - b.totalTime
+    })
+
+    // Assign ranks
+    rankedModels.forEach((model, index) => {
+      model.rank = index + 1
+    })
+
+    return rankedModels
   }
 
-  // Add this type guard function
-  const isNumber = (value: any): value is number => {
-    return typeof value === "number"
-  }
+  const rankedModels = getFilteredRankedModels()
 
   return (
     <div className="container py-10">
       <div className="space-y-4">
         <h1 className="text-3xl font-bold tracking-tighter">Benchmark Leaderboard</h1>
-        <p className="text-muted-foreground">Compare model performance across multiple metrics and tasks</p>
+        <p className="text-muted-foreground">Compare model performance across multiple metrics and datasets</p>
       </div>
 
       <div className="my-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-4 sm:flex-row">
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4" />
-            <span className="text-sm font-medium">Task:</span>
-            <Select value={taskFilter} onValueChange={setTaskFilter}>
+            <span className="text-sm font-medium">Dataset:</span>
+            <Select value={datasetFilter} onValueChange={setDatasetFilter}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="All Tasks" />
+                <SelectValue placeholder="Set_1" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Tasks</SelectItem>
-                <SelectItem value="global">Global Counting</SelectItem>
-                <SelectItem value="local">Local Counting</SelectItem>
-                <SelectItem value="induced">Induced Subgraphs</SelectItem>
-                <SelectItem value="non-induced">Non-induced Subgraphs</SelectItem>
+                {allDatasets.map(dataset => (
+                  <SelectItem key={dataset} value={dataset}>
+                    {dataset}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4" />
-            <span className="text-sm font-medium">Sort by:</span>
+            <span className="text-sm font-medium">Rank by:</span>
             <Select value={metricFilter} onValueChange={setMetricFilter}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Q-Error" />
@@ -243,6 +360,22 @@ export default function LeaderboardPage() {
                 <SelectItem value="qError">Q-Error</SelectItem>
                 <SelectItem value="mae">MAE</SelectItem>
                 <SelectItem value="inferenceTime">Inference Time</SelectItem>
+                <SelectItem value="preprocessTime">Preprocess Time</SelectItem>
+                <SelectItem value="totalTime">Total Time</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4" />
+            <span className="text-sm font-medium">View:</span>
+            <Select value={viewMode} onValueChange={setViewMode}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Accuracy" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="accuracy">Accuracy</SelectItem>
+                <SelectItem value="efficiency">Efficiency</SelectItem>
+                <SelectItem value="combined">Combined</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -257,70 +390,49 @@ export default function LeaderboardPage() {
         <CardHeader className="pb-2">
           <CardTitle>Model Rankings</CardTitle>
           <CardDescription>
-            Sorted by {metricFilter === "qError" ? "Q-Error" : metricFilter === "mae" ? "MAE" : "Inference Time"}
+            Dataset: {datasetFilter} • 
+            Ranked by {
+              metricFilter === "qError" ? "Q-Error" : 
+              metricFilter === "mae" ? "MAE" : 
+              metricFilter === "inferenceTime" ? "Inference Time" :
+              metricFilter === "preprocessTime" ? "Preprocess Time" :
+              "Total Time"
+            }
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[80px] cursor-pointer" onClick={() => handleSort("rank")}>
-                  Rank {sortColumn === "rank" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="cursor-pointer" onClick={() => handleSort("model")}>
-                  Model {sortColumn === "model" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="cursor-pointer" onClick={() => handleSort("team")}>
-                  Team {sortColumn === "team" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="cursor-pointer" onClick={() => handleSort("type")}>
-                  Type {sortColumn === "type" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="cursor-pointer text-right" onClick={() => handleSort("qError")}>
-                  Q-Error {sortColumn === "qError" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="cursor-pointer text-right" onClick={() => handleSort("mae")}>
-                  MAE {sortColumn === "mae" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="cursor-pointer text-right" onClick={() => handleSort("inferenceTime")}>
-                  Inference Time (s) {sortColumn === "inferenceTime" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="cursor-pointer text-right" onClick={() => handleSort("dataset")}>
-                  Dataset {sortColumn === "dataset" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="text-right">Links</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {leaderboardData
-                .sort((a: LeaderboardEntry, b: LeaderboardEntry) => {
-                  const aValue = a[sortColumn]
-                  const bValue = b[sortColumn]
-                  
-                  if (isNumber(aValue) && isNumber(bValue)) {
-                    return sortDirection === "asc" ? aValue - bValue : bValue - aValue
-                  } else {
-                    return sortDirection === "asc"
-                      ? String(aValue).localeCompare(String(bValue))
-                      : String(bValue).localeCompare(String(aValue))
-                  }
-                })
-                .map((entry) => (
-                  <TableRow key={entry.rank}>
-                    <TableCell className="font-medium">{entry.rank}</TableCell>
-                    <TableCell>{entry.model}</TableCell>
-                    <TableCell>{entry.team}</TableCell>
-                    <TableCell>
-                      <Badge variant={entry.type === "ML" ? "default" : "outline"}>{entry.type}</Badge>
+          {viewMode === "accuracy" && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-16 text-center">Rank</TableHead>
+                  <TableHead className="w-32">Model</TableHead>
+                  <TableHead className="w-40">Team</TableHead>
+                  <TableHead className="w-20 text-center">Type</TableHead>
+                  <TableHead className="w-28 text-right">Q-Error</TableHead>
+                  <TableHead className="w-28 text-right">MAE</TableHead>
+                  <TableHead className="w-32 text-right">Links</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rankedModels.map((model) => (
+                  <TableRow key={model.id}>
+                    <TableCell className="text-center font-medium">{model.rank}</TableCell>
+                    <TableCell className="font-medium">{model.model}</TableCell>
+                    <TableCell>{model.team}</TableCell>
+                    <TableCell className="text-center">
+                      <Badge variant={model.type === "ML" ? "default" : "outline"}>{model.type}</Badge>
                     </TableCell>
-                    <TableCell className="text-right">{entry.qError.toFixed(2)}</TableCell>
-                    <TableCell className="text-right">{entry.mae.toFixed(2)}</TableCell>
-                    <TableCell className="text-right">{entry.inferenceTime.toFixed(1)}</TableCell>
-                    <TableCell className="text-right">{entry.dataset}</TableCell>
+                    <TableCell className={`text-right ${metricFilter === "qError" ? "font-semibold" : ""}`}>
+                      {model.qError.toFixed(2)}
+                    </TableCell>
+                    <TableCell className={`text-right ${metricFilter === "mae" ? "font-semibold" : ""}`}>
+                      {model.mae.toFixed(2)}
+                    </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <a
-                          href={entry.paperLink}
+                          href={model.paperLink}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-primary hover:underline"
@@ -328,7 +440,7 @@ export default function LeaderboardPage() {
                           Paper
                         </a>
                         <a
-                          href={entry.codeLink}
+                          href={model.codeLink}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-primary hover:underline"
@@ -339,8 +451,133 @@ export default function LeaderboardPage() {
                     </TableCell>
                   </TableRow>
                 ))}
-            </TableBody>
-          </Table>
+              </TableBody>
+            </Table>
+          )}
+
+          {viewMode === "efficiency" && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-16 text-center">Rank</TableHead>
+                  <TableHead className="w-32">Model</TableHead>
+                  <TableHead className="w-40">Team</TableHead>
+                  <TableHead className="w-20 text-center">Type</TableHead>
+                  <TableHead className="w-28 text-right">Inference (s)</TableHead>
+                  <TableHead className="w-28 text-right">Preprocess (s)</TableHead>
+                  <TableHead className="w-28 text-right">Total (s)</TableHead>
+                  <TableHead className="w-32 text-right">Links</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rankedModels.map((model) => (
+                  <TableRow key={model.id}>
+                    <TableCell className="text-center font-medium">{model.rank}</TableCell>
+                    <TableCell className="font-medium">{model.model}</TableCell>
+                    <TableCell>{model.team}</TableCell>
+                    <TableCell className="text-center">
+                      <Badge variant={model.type === "ML" ? "default" : "outline"}>{model.type}</Badge>
+                    </TableCell>
+                    <TableCell className={`text-right ${metricFilter === "inferenceTime" ? "font-semibold" : ""}`}>
+                      {model.inferenceTime.toFixed(1)}
+                    </TableCell>
+                    <TableCell className={`text-right ${metricFilter === "preprocessTime" ? "font-semibold" : ""}`}>
+                      {model.preprocessTime.toFixed(1)}
+                    </TableCell>
+                    <TableCell className={`text-right ${metricFilter === "totalTime" ? "font-semibold" : ""}`}>
+                      {model.totalTime.toFixed(1)}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <a
+                          href={model.paperLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline"
+                        >
+                          Paper
+                        </a>
+                        <a
+                          href={model.codeLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline"
+                        >
+                          Code
+                        </a>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+
+          {viewMode === "combined" && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-16 text-center">Rank</TableHead>
+                  <TableHead className="w-28">Model</TableHead>
+                  <TableHead className="w-36">Team</TableHead>
+                  <TableHead className="w-20 text-center">Type</TableHead>
+                  <TableHead className="w-24 text-right">Q-Error</TableHead>
+                  <TableHead className="w-24 text-right">MAE</TableHead>
+                  <TableHead className="w-24 text-right">Inference (s)</TableHead>
+                  <TableHead className="w-24 text-right">Preprocess (s)</TableHead>
+                  <TableHead className="w-24 text-right">Total (s)</TableHead>
+                  <TableHead className="w-32 text-right">Links</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rankedModels.map((model) => (
+                  <TableRow key={model.id}>
+                    <TableCell className="text-center font-medium">{model.rank}</TableCell>
+                    <TableCell className="font-medium">{model.model}</TableCell>
+                    <TableCell>{model.team}</TableCell>
+                    <TableCell className="text-center">
+                      <Badge variant={model.type === "ML" ? "default" : "outline"}>{model.type}</Badge>
+                    </TableCell>
+                    <TableCell className={`text-right ${metricFilter === "qError" ? "font-semibold" : ""}`}>
+                      {model.qError.toFixed(2)}
+                    </TableCell>
+                    <TableCell className={`text-right ${metricFilter === "mae" ? "font-semibold" : ""}`}>
+                      {model.mae.toFixed(2)}
+                    </TableCell>
+                    <TableCell className={`text-right ${metricFilter === "inferenceTime" ? "font-semibold" : ""}`}>
+                      {model.inferenceTime.toFixed(1)}
+                    </TableCell>
+                    <TableCell className={`text-right ${metricFilter === "preprocessTime" ? "font-semibold" : ""}`}>
+                      {model.preprocessTime.toFixed(1)}
+                    </TableCell>
+                    <TableCell className={`text-right ${metricFilter === "totalTime" ? "font-semibold" : ""}`}>
+                      {model.totalTime.toFixed(1)}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <a
+                          href={model.paperLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline"
+                        >
+                          Paper
+                        </a>
+                        <a
+                          href={model.codeLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline"
+                        >
+                          Code
+                        </a>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
 
