@@ -86,13 +86,15 @@ export default function DatasetPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="overflow-hidden rounded-lg border">
+                  <div className="relative aspect-[5/3] w-full overflow-hidden rounded-lg border">
                     <Image
-                      src="/placeholder.svg?height=300&width=500"
+                      src="/beacon/figs/local_induced_counts_distribution.png"
                       alt="Sample graphs from Oracle Dataset"
-                      width={500}
-                      height={300}
-                      className="object-cover"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-contain"
+                      priority
+                      quality={95}
                     />
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -175,13 +177,15 @@ export default function DatasetPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="overflow-hidden rounded-lg border">
+                  <div className="relative aspect-[5/3] w-full overflow-hidden rounded-lg border">
                     <Image
-                      src="/placeholder.svg?height=300&width=500"
+                      src="/beacon/figs/n_vs_m_sep_percentiles.png"
                       alt="Domain-density distribution visualization"
-                      width={500}
-                      height={300}
-                      className="object-cover"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-contain"
+                      priority
+                      quality={95}
                     />
                   </div>
                   <div className="flex flex-wrap gap-2">

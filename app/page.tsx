@@ -48,13 +48,13 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <div className="relative w-full h-full min-h-[400px] rounded-xl border bg-background/50 shadow-md">
+              <div className="relative aspect-[4/3] w-full rounded-xl border bg-background/50 shadow-md overflow-hidden">
                 <Image
                   src="/beacon/figs/overview.png"
                   alt="Subgraph counting example visualization"
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-contain p-2"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                  className="object-contain bg-white dark:bg-background"
                   priority
                   quality={95}
                 />
@@ -151,16 +151,10 @@ export default function Home() {
                   <div className="w-24 text-sm text-muted-foreground">Jun 2024</div>
                   <div>
                     <p className="font-medium">BEACON v1.2 Release</p>
-                    <p className="text-sm text-muted-foreground">Added 12,000 new financial network graphs</p>
+                    <p className="text-sm text-muted-foreground">Added new network graphs</p>
                   </div>
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-24 text-sm text-muted-foreground">Apr 2024</div>
-                  <div>
-                    <p className="font-medium">KDD Workshop Announcement</p>
-                    <p className="text-sm text-muted-foreground">Join our workshop on subgraph counting at KDD 2024</p>
-                  </div>
-                </div>
+
                 <div className="flex gap-4">
                   <div className="w-24 text-sm text-muted-foreground">Feb 2024</div>
                   <div>
