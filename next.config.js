@@ -4,8 +4,8 @@ const nextConfig = {
     images: {
         unoptimized: true,
     },
-    basePath: '/beacon',  // Replace with your repo name
-    assetPrefix: '/beacon/',  // Replace with your repo name (with trailing slash)
+    basePath: '/beacon',  // Should match your repo name
+    assetPrefix: '/beacon/',  // Add trailing slash
     trailingSlash: true,      // Add this line
     eslint: {
         ignoreDuringBuilds: true,

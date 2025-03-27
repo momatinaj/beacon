@@ -10,8 +10,8 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 border-b">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+        <div className="container px-4 md:px-6 max-w-7xl mx-auto">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 items-center">
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">BEACON</h1>
@@ -48,12 +48,15 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <div className="relative h-[300px] w-full overflow-hidden rounded-xl border bg-muted/50 md:h-[400px]">
+              <div className="relative w-full h-full min-h-[400px] rounded-xl border bg-background/50 shadow-md">
                 <Image
-                  src="/placeholder.svg?height=400&width=600"
+                  src="/beacon/figs/overview.png"
                   alt="Subgraph counting example visualization"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-contain p-2"
+                  priority
+                  quality={95}
                 />
               </div>
             </div>

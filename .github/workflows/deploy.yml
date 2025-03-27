@@ -12,19 +12,18 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js 📦
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
 
-      - name: Install dependencies 📥
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Build 🔧
+      - name: Build
         run: npm run build
 
       - name: Add .nojekyll file
@@ -35,7 +34,7 @@ jobs:
           pwd
           ls -la
 
-      - name: Deploy 🚀
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: out
